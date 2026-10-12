@@ -26,7 +26,7 @@ Executor can also re-serve these as MCP tools (`executor mcp`), so MCP-only clie
 
 ## Why use it
 
-Portainer's published spec is split across many files with external `$ref`s. Executor resolves only local `#/` refs, so the raw upstream spec yields **0 tools**. This repo bundles each version with [`@redocly/cli`](https://github.com/Redocly/redocly-cli) into a single file with local refs only, and nothing else is changed.
+Portainer's published spec is split across many files with external `$ref`s. Executor resolves only local `#/` refs, so the raw upstream spec yields **0 tools**. This repo bundles each version with [`@redocly/cli`](https://github.com/Redocly/redocly-cli) into a single file with local refs only. The only other change is an [unofficial marker](#unofficial).
 
 * **Full API, exact version.** Every split-OAS3 version of CE and EE, not a hand-written subset.
 * **Zero code to maintain.** `build.sh` is a bundle plus a `jq` check, and CI rebuilds daily. New upstream versions appear on their own. If a run fails, the last good deploy stays live.
