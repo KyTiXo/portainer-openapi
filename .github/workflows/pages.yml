@@ -1,0 +1,25 @@
+# Rebuild every bundled spec daily and publish to GitHub Pages; a failed run leaves the last good deploy live.
+name: pages
+on:
+  schedule: [{ cron: "17 6 * * *" }]
+  workflow_dispatch:
+  push: { branches: [main] }
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: false }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with: { persist-credentials: false }
+      - uses: oven-sh/setup-bun@v2
+      - run: ./build.sh site
+      - uses: actions/upload-pages-artifact@v5
+        with: { path: site }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5
