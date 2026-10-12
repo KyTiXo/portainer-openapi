@@ -6,7 +6,9 @@ OUT=${1:-site}
 mkdir -p "$OUT"
 for ed in ce ee; do
   # Split OAS3 versions are the ones whose entry file is versions/<ed>/<ver>/openapi.yaml; the rest are Swagger 2.0.
-  for ver in $(curl -fsS "$BASE/$ed-versions.json" | jq -r --arg ed "$ed" '.[] | select(.file == "versions/\($ed)/\(.id)/openapi.yaml") | .id'); do
+  vers=$(curl -fsS "$BASE/$ed-versions.json" | jq -r --arg ed "$ed" '.[] | select(.file == "versions/\($ed)/\(.id)/openapi.yaml") | .id')
+  [ -n "$vers" ] || { echo "no $ed versions"; exit 1; }
+  for ver in $vers; do
     f="$OUT/$ed/$ver.json"
     # Upstream occasionally drops a ref fetch; retry before failing the run.
     for try in 1 2 3; do
