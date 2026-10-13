@@ -19,7 +19,7 @@ curl -sO https://kytixo.github.io/portainer-openapi/ee/2.45.2.json
 # Look around
 jq -r '.paths | keys[]' 2.45.2.json
 # > /addon-store/v1/capabilities
-# > /addons
+# > /addon-store/v1/config
 # > ...
 
 # Use it in Executor: Add OpenAPI > URL, paste the spec URL, then set
